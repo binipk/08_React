@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+}
+
+.gnb {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 48px;
+  height: 60px;
+  background: black;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo img {
+  height: 24px;         /* 이미지 크기 줄이기 */
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+.nav-links a:hover {
+  color: #ddd;
+}
