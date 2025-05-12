@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .tagcolor {
+        background-color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="jsx-none"></div>
+    <div class="tagColor">aa</div>
+    <button onclick="alert('눌렀니?')">클릭하지마세요</button>
+    <script>
+      /* 아래의 코드는 JSX를 사용하지 않고 순수 JavaScript로 DOM을 조작하는 방식이다. */
+      const name = "홍길동";
+      const element = document.createElement("h1"); // element에 h1에 객체 정보가 들어감
+      element.innerHTML = "<b>Hello, world!! " + name + "</b>";
+
+      const container = document.getElementById("jsx-none");
+      container.appendChild(element);
+    </script>
+  </body>
+</html>

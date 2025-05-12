@@ -16,6 +16,7 @@
 
 // 구조분해를 사용하지 않고 props객체를 직접 사용하는 경우
 function Greeting(props) {
+
   return (
     <div>
       <p>안녕하세요, {props.name}님</p>
