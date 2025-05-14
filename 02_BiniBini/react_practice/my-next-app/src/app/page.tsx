@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <main className="p-8">
-      <h1 className="text-3xl font-bold mb-4">Bini's Developing World</h1>
+      <h1 className="text-3xl font-bold mb-4">Bins Developing World</h1>
 
       <ul className="space-y-2">
         <li>

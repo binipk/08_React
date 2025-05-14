@@ -1,43 +1,38 @@
-// ✅ 클라이언트 응답을 위한 Next.js 전용 객체
-import { NextResponse } from "next/server";
+import { NextResponse } from "next/server"; // 응답을 클라이언트한테 보낼 때 쓰는 도구
+import fs from "fs/promises"; // 파일을 읽고 쓰기 위한 기능 (비동기용)
+import path from 'path'; // 파일 경로를 안전하게 만들어주는 도구
 
-// ✅ 파일을 비동기로 다루기 위한 Node.js 내장 모듈
-import fs from "fs/promises";
-
-// ✅ 경로를 절대경로로 안전하게 조작해주는 유틸
-import path from 'path';
-
-// ✅ POST 요청이 들어왔을 때 실행될 함수
+// POST 요청이 오면 실행되는 함수
 export async function POST (req: Request) {
-  // 👉 클라이언트에서 보낸 JSON 데이터를 파싱
+  // 사용자가 보낸 데이터 꺼내기 (name, email, password)
   const { name, email, password } = await req.json();
 
-  // 👉 사용자 데이터가 저장된 JSON 파일 경로 지정
+  // users.json 파일 위치 정하기 (프로젝트 기준 경로)
   const filePath = path.join(process.cwd(), 'data', 'users.json');
 
-  // 👉 JSON 파일을 읽고 문자열 → JS 배열로 변환
+  // 파일 안의 내용을 읽고, 문자열을 배열로 바꿔주기
   const fileData = await fs.readFile(filePath, 'utf-8');
   const users = JSON.parse(fileData);
 
-  // 👉 중복 이메일이 있는지 검사
+  // 이미 가입된 이메일인지 확인
   const exists = users.some((user: any) => user.email === email);
   if (exists) {
-    // ❌ 이미 존재하는 이메일인 경우 → 409 Conflict 응답
+    // 중복이면 실패 응답 보내기 (409 = 충돌)
     return NextResponse.json(
       { message: '사용중인 이메일입니다.' },
       { status: 409 }
     );
   }
 
-  // 👉 새 유저 정보 객체 생성 (id는 timestamp로 대체)
+  // 새 사용자 객체 만들기 (id는 지금 시간으로 만듦)
   const newUser = { id: Date.now(), name, email, password };
 
-  // 👉 기존 사용자 목록에 새 유저 추가
+  // 기존 목록에 새 유저 추가
   users.push(newUser);
 
-  // 👉 다시 파일로 저장 (들여쓰기 2칸)
+  // 바뀐 목록을 다시 파일에 저장 (들여쓰기 예쁘게 2칸)
   await fs.writeFile(filePath, JSON.stringify(users, null, 2));
 
-  // ✅ 성공 응답 반환
+  // 가입 성공 응답 보내기 (201 = 성공적으로 생성됨)
   return NextResponse.json({ message: '회원가입 완료!' }, { status: 201 });
 }
